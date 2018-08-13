@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Websocket from 'react-websocket';
-import './App.styl'
+import './App.styl';
+
+import { testAction } from './redux/action/testAction';
 
 class App extends Component{
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
         this.state = {
-            count: 90
+            data: 90
         };
+        this.context.store.subscribe(this.setData.bind(this));
+    }
+
+    setData(){
+        const state = this.context.store.getState();
+        this.setState({
+            data: state.testReducer.data
+        })
+    }
+
+    componentDidMount(){
+        setInterval(()=>{
+            this.props.dispatch(testAction(this.state.data + 1));
+        },1000);
     }
 
     handleData(data) {
         let result = JSON.parse(data);
-        this.setState({count: this.state.count + result.movement});
+        this.setState({data: this.state.count + result.movement});
     }
 
     onOpen(){
@@ -22,7 +40,7 @@ class App extends Component{
 
     render(){
         return <div>
-            Count: <strong>{this.state.count}</strong>
+            Count: <strong>{this.state.data}</strong>
 
             <Websocket url='ws://localhost:8001' ref="mySocket"
                        onOpen={this.onOpen.bind(this)}
@@ -31,4 +49,9 @@ class App extends Component{
     }
 }
 
-export default App;
+App.contextTypes = {
+    store: PropTypes.object,
+    data: PropTypes.number
+}
+
+export default connect(state => state.testReducer.data )(App);
