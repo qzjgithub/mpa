@@ -6,6 +6,8 @@ import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import './App.styl';
 
+import Header from './space_modules/header';
+
 import { testAction } from './redux/action/testAction';
 
 class App extends Component{
@@ -42,11 +44,12 @@ class App extends Component{
 
     render(){
         return <div>
+            <Header />
             Count: <strong>{this.state.data}</strong>
 
-            <Websocket url='ws://localhost:8001' ref="mySocket"
+            {/*<Websocket url='ws://localhost:8001' ref="mySocket"
                        onOpen={this.onOpen.bind(this)}
-                       onMessage={this.handleData.bind(this)}/>
+                       onMessage={this.handleData.bind(this)}/>*/}
 
             <DatePicker />
         </div>
