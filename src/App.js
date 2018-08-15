@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Websocket from 'react-websocket';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 import './App.styl';
 
 import { testAction } from './redux/action/testAction';
@@ -45,6 +47,8 @@ class App extends Component{
             <Websocket url='ws://localhost:8001' ref="mySocket"
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>
+
+            <DatePicker />
         </div>
     }
 }
