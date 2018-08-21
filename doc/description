@@ -1,0 +1,12 @@
+1.以及目录
+    dist 打包目录
+    doc 说明文件
+    src 源文件
+    webpack 打包配置文件
+
+2.src下
+    feature_modules 功能模块
+    space_modules 空间模块
+    mpa_modules 多页面模块
+    components 组件
+    redux redux项目源文件

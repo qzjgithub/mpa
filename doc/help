@@ -1,0 +1,31 @@
+react + webpack + websocket + stylus + redux + antd + router
+
+1.使用react-websocket插件，直接npm install后，其打包的文件内没有sendMessage方法。
+进入到node_modules\react-websoket下执行
+npm install
+npm run-script prerelease
+注：1.不要安装全局的webpack，不然此处打包会报错，因为其使用版本比较低。
+    2.根项目不要使用.babelrc的方式打包，会导致此处保存。
+
+2.git忽略文件
+git update-index --assume-unchanged   要忽略的文件夹/文件夹下文件名
+git会用到的命令
+    git init
+    git add .
+    git commit -m "init"
+    git remote orign 仓库地址 - 如https://github.com/qzjgithub/mpa.git
+    git push -u orign master
+
+3.webpack的16.4.2版本已经将PropTypes移除，要自己安装prop-types
+npm install prop-types@latest --dev-save
+在用到store的component中，constructor中，要写super(props,context)
+
+4.加入antd的使用
+npm install antd --dev-save
+postcss-flexbugs-fixes没安装，安装一下
+
+5.DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
+在跑开发模式时，会报这个错
+不管是npm install extract-text-webpack-plugin
+还是npm install mini-css-extract-plugin
+都没有用，这个只是警告，不用管说

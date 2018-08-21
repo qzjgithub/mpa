@@ -1,16 +1,34 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 const port = 9090;
+
+const mpadir = path.resolve(__dirname, '../src/mpa_modules');
+
+const entries = fs.readdirSync(mpadir)
+    .filter( entry => fs.statSync(path.join(mpadir, entry)).isDirectory());
+
+let entry = {}, plugins = [];
+entries.forEach((item) => {
+    entry[item] = `${mpadir}/${item}/index.js`;
+    plugins.push(new HtmlWebpackPlugin({
+        template : `${mpadir}/${item}/index.html`,
+        filename: `${item}/index.html`,
+        chunks: [item],
+        inject: true
+    }));
+});
+
 module.exports = {
     mode: "development",
-    entry: path.resolve(__dirname, '../src/index.js'), //指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
+    entry: entry,
     output: {
         path: path.resolve(__dirname, '../dist'), // 输出的路径
-        filename: 'app/[name]_[hash:8].js'  // 打包后文件
+        filename: '[name]/[name]_[hash:8].js'  // 打包后文件
     },
     resolve: {
         extensions: ['.js','.styl']
@@ -71,17 +89,17 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'../src/index.html'),
-            inject: true
-        }),
+        ...plugins,
         new webpack.HotModuleReplacementPlugin(),
         new OpenBrowserPlugin({ url: 'http://localhost:' + port})
     ],
     devServer: {
-        contentBase: path.resolve(__dirname, '../dist'), //默认会以根文件夹提供本地服务器，这里指定文件夹
-        historyApiFallback: true, //在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
+        // contentBase: path.resolve(__dirname, '../dist'), //默认会以根文件夹提供本地服务器，这里指定文件夹
+        historyApiFallback: {
+            index: '/index/index.html'
+        }, //在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
         port: port, //如果省略，默认8080
+        // index: 'index/index.html',
         publicPath: "/",
         inline: true,
         hot: true,

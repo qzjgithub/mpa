@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Websocket from 'react-websocket';
 import { DatePicker } from 'antd';
-import 'antd/dist/antd.css';
+import { Route, IndexRoute } from "react-router";
+import { Link } from "react-router-dom";
 import './App.styl';
 
-import Header from './space_modules/header';
+import Header from '../../space_modules/header';
 
-import { testAction } from './redux/action/testAction';
+import { testAction } from '../../redux/action/testAction';
 
 class App extends Component{
     constructor(props, context) {
@@ -27,9 +28,9 @@ class App extends Component{
     }
 
     componentDidMount(){
-        setInterval(()=>{
+        /*setInterval(()=>{
             this.props.dispatch(testAction(this.state.data + 1));
-        },1000);
+        },1000);*/
     }
 
     handleData(data) {
@@ -44,14 +45,14 @@ class App extends Component{
 
     render(){
         return <div>
-            <Header />
             Count: <strong>{this.state.data}</strong>
 
             {/*<Websocket url='ws://localhost:8001' ref="mySocket"
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>*/}
 
-            <DatePicker />
+            <Link to={{pathname:"/head",query:{aa:1}}}>跳转</Link>
+            <Route path="/head" component={ Header }/>
         </div>
     }
 }

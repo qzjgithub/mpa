@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 
-class Header extends Component{
+class App extends Component{
     constructor(props, context) {
         super(props, context);
-        console.log(props.location);
     }
 
     render(){
-        return <header>这是头部</header>
+        return <div>登录页面</div>
     }
 }
 
-export default Header;
+export default App;

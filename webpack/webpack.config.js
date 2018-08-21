@@ -1,12 +1,30 @@
 const path = require('path');
+const fs = require('fs');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const mpadir = path.resolve(__dirname, '../src/mpa_modules');
+
+const entries = fs.readdirSync(mpadir)
+    .filter( entry => fs.statSync(path.join(mpadir, entry)).isDirectory());
+
+let entry = {}, plugins = [];
+entries.forEach((item) => {
+    entry[item] = `${mpadir}/${item}/index.js`;
+    plugins.push(new HtmlWebpackPlugin({
+        template : `${mpadir}/${item}/index.html`,
+        filename: `${item}/index.html`,
+        chunks: [item],
+        inject: true
+    }));
+});
+
 module.exports = {
     mode: "production",
-    entry: path.resolve(__dirname, '../src/index.js'), //指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
+    entry: entry,
     output: {
-        path: path.resolve(__dirname, '../dist'), // 输出的路径
-        filename: 'app/[name]_[hash:8].js'  // 打包后文件
+        path: path.resolve(__dirname, '../dist'),
+        filename: '[name]/[name]_[hash:8].js'
     },
     resolve: {
         extensions: ['.js','.styl']
@@ -49,7 +67,7 @@ module.exports = {
                                         }),
                                     ],
                                 },
-                            },
+                            }
                         ]
                     },
                     {
@@ -67,10 +85,5 @@ module.exports = {
             },
         ]
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'../src/index.html'),
-            inject: true
-        })
-    ]
+    plugins: plugins
 }
