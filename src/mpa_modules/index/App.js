@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import './App.styl';
 
 import Header from '../../space_modules/header';
+import Bridge from '../../comnponent/bridge';
 
 import { testAction } from '../../redux/action/testAction';
 
@@ -44,6 +45,7 @@ class App extends Component{
     }
 
     render(){
+        const { match } = this.props;
         return <div>
             Count: <strong>{this.state.data}</strong>
 
@@ -51,8 +53,8 @@ class App extends Component{
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>*/}
 
-            <Link to={{pathname:"/head",query:{aa:1}}}>跳转</Link>
-            <Route path="/head" component={ Header }/>
+            <Link to={{pathname:`${match.url}/demo`,query:{name: "demo"}}}>跳转</Link>
+            <Route path={`${match.url}/demo`} component={ Bridge }/>
         </div>
     }
 }

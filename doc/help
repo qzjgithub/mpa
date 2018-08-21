@@ -29,3 +29,6 @@ postcss-flexbugs-fixes没安装，安装一下
 不管是npm install extract-text-webpack-plugin
 还是npm install mini-css-extract-plugin
 都没有用，这个只是警告，不用管说
+
+6.feature_modules里面的项目，除了webpack需要用到全局的以外，其他的都可以用mpa\node_modules下的
+所以要npm install webpack -g
