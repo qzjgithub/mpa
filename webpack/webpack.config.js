@@ -2,24 +2,53 @@ const path = require('path');
 const fs = require('fs');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Clean = require('clean-webpack-plugin');
+const Copy = require('copy-webpack-plugin');
 
 const mpadir = path.resolve(__dirname, '../src/mpa_modules');
 
 const entries = fs.readdirSync(mpadir)
     .filter( entry => fs.statSync(path.join(mpadir, entry)).isDirectory());
 
+const featuredir = path.resolve(__dirname,'../src/feature_modules');
+
+const featureEntries = fs.readdirSync(featuredir)
+    .filter( entry => fs.statSync(path.join(featuredir, entry)).isDirectory());
+
 let entry = {}, plugins = [];
+entry['requirejs'] = [path.resolve(__dirname, '../src/common/js/require'),path.resolve(__dirname, '../src/common/js/config')];
+
+plugins.push(new Clean(['dist'], {
+    root: path.resolve(__dirname, '../'),
+    verbose:  true,
+    dry:      false
+}));
+let copys = [];
+featureEntries.forEach((item) => {
+    copys.push({
+        from: `${featuredir}/${item}/dist/*`,
+        to: `${item}/[name].[ext]`,
+        toType: 'template'
+    });
+});
+plugins.push(new Copy(copys));
+/*plugins.push(new Copy([{
+    from: featuredir + '/!**!/dist/!*',
+    to: '[1]/[name].[ext]',
+    test: /feature_modules\/([^\/]+?)\/dist\..+$/,
+    toType: 'template'
+}]));*/
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
     plugins.push(new HtmlWebpackPlugin({
         template : `${mpadir}/${item}/index.html`,
         filename: `${item}/index.html`,
-        chunks: [item],
+        chunks: ['requirejs',item],
         inject: true
     }));
 });
 
-module.exports = {
+let config = {
     mode: "production",
     entry: entry,
     output: {
@@ -85,5 +114,19 @@ module.exports = {
             },
         ]
     },
+    /*optimization: {
+        splitChunks: {
+            name: true,
+            cacheGroups: {
+                common: {
+                    name: "common",
+                    chunks: "initial",
+                    minChunks: 4,
+                }
+            }
+        }
+    },*/
     plugins: plugins
 }
+
+module.exports = config;

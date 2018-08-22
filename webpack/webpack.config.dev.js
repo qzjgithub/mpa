@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const Copy = require('copy-webpack-plugin');
 
 const port = 9090;
 
@@ -12,13 +13,29 @@ const mpadir = path.resolve(__dirname, '../src/mpa_modules');
 const entries = fs.readdirSync(mpadir)
     .filter( entry => fs.statSync(path.join(mpadir, entry)).isDirectory());
 
+const featuredir = path.resolve(__dirname,'../src/feature_modules');
+
+const featureEntries = fs.readdirSync(featuredir)
+    .filter( entry => fs.statSync(path.join(featuredir, entry)).isDirectory());
+
 let entry = {}, plugins = [];
+entry['requirejs'] = [path.resolve(__dirname, '../src/common/js/require'),path.resolve(__dirname, '../src/common/js/config')];
+let copys = [];
+featureEntries.forEach((item) => {
+    copys.push({
+        from: `${featuredir}/${item}/dist/*`,
+        to: `${item}/[name].[ext]`,
+        toType: 'template'
+    });
+});
+plugins.push(new Copy(copys));
+
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
     plugins.push(new HtmlWebpackPlugin({
         template : `${mpadir}/${item}/index.html`,
         filename: `${item}/index.html`,
-        chunks: [item],
+        chunks: ['requirejs',item],
         inject: true
     }));
 });
