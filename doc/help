@@ -32,6 +32,7 @@ postcss-flexbugs-fixes没安装，安装一下
 
 6.feature_modules里面的项目，除了webpack需要用到全局的以外，其他的都可以用mpa\node_modules下的
 所以要npm install webpack -g
+还有npm install webpack-dev-server -g
 
 7.直接npm install requirejs
 但是把里面的require.js拷贝出来，放到src/common/js下面

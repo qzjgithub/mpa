@@ -11,6 +11,7 @@ import Header from '../../space_modules/header';
 import Bridge from '../../comnponent/bridge';
 
 import { testAction } from '../../redux/action/testAction';
+import Center from "../../comnponent/center";
 
 class App extends Component{
     constructor(props, context) {
@@ -53,8 +54,8 @@ class App extends Component{
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>*/}
 
-            <Link to={{pathname:`${match.url}/demo`,query:{name: "demo"}}}>跳转</Link>
-            <Route path={`${match.url}/demo`} component={ Bridge }/>
+            <Link to={{pathname:`${match.url}/demo`,query:{ mn: "demo" }}}>跳转</Link>
+            <Route path={`${match.url}/demo`} component={ Center }/>
         </div>
     }
 }

@@ -1,3 +1,18 @@
 bridge是连接框架和子页面的组件
 1.子页面的路由依然可用
 2.子页面的store变为框架的子store
+
+    实现框架对子页面的传参，子页面的参数可以告诉框架
+    传路由路径，store
+
+store的实现
+1.父store存在，则一定提供一个reducer，用于融合子store，融合后给子页面的component提供父store。
+2.父store不存在，直接给子页面提供父store。
+3.父store不存在，子store按自身逻辑来。
+
+融合store，state互相合并，相同名称的子state覆盖父state
+重新联合reducer，并replace掉
+
+bridge分为父页面用的Bridge组件，和子页面的bridge加载方法
+Bridge npm install mpa-bridge-dom
+bridge npm install mpa-bridge
