@@ -10,9 +10,10 @@ store的实现
 2.父store不存在，直接给子页面提供父store。
 3.父store不存在，子store按自身逻辑来。
 
-融合store，state互相合并，相同名称的子state覆盖父state
 重新联合reducer，并replace掉
 
 bridge分为父页面用的Bridge组件，和子页面的bridge加载方法
-Bridge npm install mpa-bridge-dom
-bridge npm install mpa-bridge
+npm adduser
+npm publish
+Bridge: npm install mpa-bridge-dom
+bridge: npm install mpa-bridge

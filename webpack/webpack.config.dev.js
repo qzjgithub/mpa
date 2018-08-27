@@ -19,7 +19,7 @@ const featureEntries = fs.readdirSync(featuredir)
     .filter( entry => fs.statSync(path.join(featuredir, entry)).isDirectory());
 
 let entry = {}, plugins = [];
-entry['requirejs'] = [path.resolve(__dirname, '../src/common/js/require'),path.resolve(__dirname, '../src/common/js/config')];
+// entry['requirejs'] = [path.resolve(__dirname, '../src/common/js/require'),path.resolve(__dirname, '../src/common/js/config')];
 let copys = [];
 featureEntries.forEach((item) => {
     copys.push({
@@ -35,7 +35,8 @@ entries.forEach((item) => {
     plugins.push(new HtmlWebpackPlugin({
         template : `${mpadir}/${item}/index.html`,
         filename: `${item}/index.html`,
-        chunks: ['requirejs',item],
+        // chunks: ['requirejs',item],
+        chunks: [item],
         inject: true
     }));
 });

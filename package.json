@@ -25,6 +25,7 @@
     "file-loader": "^1.1.11",
     "history": "^4.7.2",
     "mini-css-extract-plugin": "^0.4.1",
+    "mpa-bridge-dom": "^1.1.1",
     "open-browser-webpack-plugin": "0.0.5",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^2.1.6",

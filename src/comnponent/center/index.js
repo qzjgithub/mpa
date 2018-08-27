@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Bridge from "../bridge";
+import Bridge from "mpa-bridge-dom";
+import PropTypes from "prop-types";
+import reducers from '../../redux/reducer';
 
 class Center extends Component{
     constructor(props, context) {
@@ -11,11 +13,23 @@ class Center extends Component{
             this.pathname = param.pathname;
             this.mn = param.query.mn;
         }
+        this.store = this.context.store;
     }
 
     render(){
-        return <Bridge sessionName={ this.sessionName } mn={this.mn} pathname={this.pathname} id={this.id}/>
+        return <Bridge
+            store={this.store}
+            reducers={reducers}
+            sessionName={ this.sessionName }
+            mn={this.mn}
+            pathname={this.pathname}
+            id={this.id} />
     }
+}
+
+
+Center.contextTypes = {
+    store: PropTypes.object,
 }
 
 export default Center;

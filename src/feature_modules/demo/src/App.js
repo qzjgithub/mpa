@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 class App extends Component{
     constructor(props, context) {
         super(props, context);
-        /*let store = this.context.store;
-        console.log(store.getState());*/
+        let store = this.context.store;
+        console.log(store.getState());
+
+        store.dispatch({ type: 'TEST_SET', data: 20 });
     }
 
     render(){
