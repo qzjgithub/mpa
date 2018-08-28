@@ -31,12 +31,6 @@ featureEntries.forEach((item) => {
     });
 });
 plugins.push(new Copy(copys));
-/*plugins.push(new Copy([{
-    from: featuredir + '/!**!/dist/!*',
-    to: '[1]/[name].[ext]',
-    test: /feature_modules\/([^\/]+?)\/dist\..+$/,
-    toType: 'template'
-}]));*/
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
     plugins.push(new HtmlWebpackPlugin({

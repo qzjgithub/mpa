@@ -19,7 +19,7 @@ let reducers = { ...demoReducer, routing: routerReducer}
 let getFixDom = (param) => {
     return <Router history={ history }>
         <section>
-            <Route path={`${param.pathname}/appDemo`} component={ App }/>
+            <Route path={`${param.pathname==='/'?'':param.pathname}/`} component={ App }/>
         </section>
     </Router>
 }
