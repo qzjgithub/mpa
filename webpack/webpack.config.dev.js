@@ -15,12 +15,12 @@ const entries = fs.readdirSync(mpadir)
 
 const featuredir = path.resolve(__dirname,'../src/feature_modules');
 
-const featureEntries = fs.readdirSync(featuredir)
+const featureEntries = fs.existsSync(featuredir) && fs.readdirSync(featuredir)
     .filter( entry => fs.statSync(path.join(featuredir, entry)).isDirectory());
 
 let entry = {}, plugins = [];
 let copys = [];
-featureEntries.forEach((item) => {
+featureEntries && featureEntries.forEach((item) => {
     copys.push({
         from: `${featuredir}/${item}/dist/*`,
         to: `${item}/[name].[ext]`,
