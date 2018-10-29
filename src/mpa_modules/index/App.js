@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 import './App.styl';
 
 import Header from '../../space_modules/header';
-import Bridge from '../../comnponent/bridge';
 
 import { testAction } from '../../redux/action/testAction';
+import Center from "../../comnponent/center";
 
 class App extends Component{
     constructor(props, context) {
@@ -32,6 +32,7 @@ class App extends Component{
         /*setInterval(()=>{
             this.props.dispatch(testAction(this.state.data + 1));
         },1000);*/
+        this.context.store.dispatch(testAction(this.state.data + 1));
     }
 
     handleData(data) {
@@ -53,15 +54,14 @@ class App extends Component{
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>*/}
 
-            <Link to={{pathname:`${match.url}/demo`,query:{name: "demo"}}}>跳转</Link>
-            <Route path={`${match.url}/demo`} component={ Bridge }/>
+            {/*<Link to={{pathname:`${match.url === '/'? '': match.url }/demo`,query:{ mn: "demo" }}}>跳转</Link>
+            <Route path={`${match.url === '/'? '': match.url }/demo`} component={ Center }/>*/}
         </div>
     }
 }
 
 App.contextTypes = {
-    store: PropTypes.object,
-    data: PropTypes.number
+    store: PropTypes.object
 }
 
-export default connect(state => state.testReducer.data )(App);
+export default connect(state => state )(App);

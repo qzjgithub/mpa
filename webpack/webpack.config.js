@@ -2,13 +2,36 @@ const path = require('path');
 const fs = require('fs');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Clean = require('clean-webpack-plugin');
+const Copy = require('copy-webpack-plugin');
 
 const mpadir = path.resolve(__dirname, '../src/mpa_modules');
 
 const entries = fs.readdirSync(mpadir)
     .filter( entry => fs.statSync(path.join(mpadir, entry)).isDirectory());
 
+const featuredir = path.resolve(__dirname,'../src/feature_modules');
+
+const featureEntries = fs.existsSync(featuredir) && fs.readdirSync(featuredir)
+    .filter( entry => fs.statSync(path.join(featuredir, entry)).isDirectory());
+
 let entry = {}, plugins = [];
+
+plugins.push(new Clean(['dist'], {
+    root: path.resolve(__dirname, '../'),
+    verbose:  true,
+    dry:      false
+}));
+let copys = [];
+featureEntries && featureEntries.forEach((item) => {
+    copys.push({
+        from: `${featuredir}/${item}/dist/*`,
+        to: `${item}/[name].[ext]`,
+        toType: 'template'
+    });
+});
+plugins.push(new Copy(copys));
+
 entry['common'] = 'babel-polyfill';
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
@@ -86,5 +109,19 @@ module.exports = {
             },
         ]
     },
+    /*optimization: {
+        splitChunks: {
+            name: true,
+            cacheGroups: {
+                common: {
+                    name: "common",
+                    chunks: "initial",
+                    minChunks: 4,
+                }
+            }
+        }
+    },*/
     plugins: plugins
 }
+
+module.exports = config;

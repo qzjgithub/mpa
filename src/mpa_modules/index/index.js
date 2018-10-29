@@ -19,7 +19,7 @@ render(
     <Provider store={ store }>
         <Router history={ history }>
             <section>
-                <Route path="/app" component={ App }/>
+                <Route path="/" component={ App }/>
             </section>
         </Router>
     </Provider>,
