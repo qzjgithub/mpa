@@ -54,8 +54,8 @@ class App extends Component{
                        onOpen={this.onOpen.bind(this)}
                        onMessage={this.handleData.bind(this)}/>*/}
 
-            {/*<Link to={{pathname:`${match.url === '/'? '': match.url }/demo`,query:{ mn: "demo" }}}>跳转</Link>
-            <Route path={`${match.url === '/'? '': match.url }/demo`} component={ Center }/>*/}
+            <Link to={{pathname:`/demo`,query:{ mn: "demo" }}}>跳转</Link>
+            <Route path={`/demo`} component={ Center }/>
         </div>
     }
 }

@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-console.log("mpa test");
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');

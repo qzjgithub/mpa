@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const Copy = require('copy-webpack-plugin');
 
-const port = 9090;
+const port = 9092;
 
 const mpadir = path.resolve(__dirname, '../src/mpa_modules');
 

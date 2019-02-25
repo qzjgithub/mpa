@@ -43,7 +43,7 @@ entries.forEach((item) => {
     }));
 });
 
-module.exports = {
+const config = {
     mode: "production",
     entry: entry,
     output: {

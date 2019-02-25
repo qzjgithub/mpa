@@ -11,6 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mpa-bridge": "^1.1.0"
+    "mpa-bridge": "^1.1.1"
   }
 }

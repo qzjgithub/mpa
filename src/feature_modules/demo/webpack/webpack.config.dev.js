@@ -3,11 +3,20 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const Copy = require('copy-webpack-plugin');
 
 const port = 9091;
+const copys = [];
+copys.push({
+    from : path.resolve(__dirname,'../src/i18n'),
+    to: 'i18n'
+});
 module.exports = {
     mode: "development",
-    entry: path.resolve(__dirname, '../src/index.js'), //指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
+    entry: { //指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
+        common: 'babel-polyfill',
+        index: path.resolve(__dirname, '../src/index.js')
+    },
     output: {
         path: path.resolve(__dirname, '../dist'), // 输出的路径
         filename: '[name].js'  // 打包后文件
@@ -73,8 +82,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/index.html'),
+            chunks: ['common','index'],
             inject: true
         }),
+        new Copy(copys),
         new webpack.HotModuleReplacementPlugin(),
         new OpenBrowserPlugin({ url: 'http://localhost:' + port})
     ],

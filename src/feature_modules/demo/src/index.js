@@ -24,7 +24,9 @@ let getFixDom = (param) => {
     </Router>
 }
 
+//enter的最后一个参数，单独开发时为true,整合打包时为false
 enter((param, rd) => {
+    param = param || { pathname: '/'};
     let dom = getFixDom(param);
     if(rd.store){
         dom = <Provider store={ rd.store }>
@@ -35,4 +37,4 @@ enter((param, rd) => {
         dom,
         document.getElementById(param.id || 'app')
     );
-},{ store ,reducers});
+},{ store ,reducers}, false);

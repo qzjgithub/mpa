@@ -1,7 +1,13 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-console.log(__dirname,__filename);
+const Copy = require('copy-webpack-plugin');
+
+const copys = [];
+copys.push({
+    from : path.resolve(__dirname,'../src/i18n'),
+    to: 'i18n'
+});
 module.exports = {
     mode: "production",
     entry: {
@@ -64,6 +70,7 @@ module.exports = {
                         loader: require.resolve('file-loader'),
                         options: {
                             name: 'static/media/[name].[hash:8].[ext]',
+                            publicPatch: '/demo'
                         },
                     },
                 ]
@@ -74,6 +81,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/index.html'),
             inject: true
-        })
+        }),
+        new Copy(copys),
     ]
 }
