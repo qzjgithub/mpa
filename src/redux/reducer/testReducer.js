@@ -1,4 +1,4 @@
-import * as Action from '../action/testAction';
+const Action = window['common'].action.test;
 
 const initialState = {
     data : 0

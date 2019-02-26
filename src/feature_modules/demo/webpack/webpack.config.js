@@ -80,6 +80,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/index.html'),
+            filename: 'demo.html',
             inject: true
         }),
         new Copy(copys),

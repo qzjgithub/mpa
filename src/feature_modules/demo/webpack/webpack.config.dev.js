@@ -14,7 +14,8 @@ copys.push({
 module.exports = {
     mode: "development",
     entry: { //指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
-        common: 'babel-polyfill',
+        common: path.resolve(__dirname,'../../../common/index.js'),
+        babelPolyfill: 'babel-polyfill',
         index: path.resolve(__dirname, '../src/index.js')
     },
     output: {

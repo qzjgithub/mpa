@@ -32,13 +32,14 @@ featureEntries && featureEntries.forEach((item) => {
 });
 plugins.push(new Copy(copys));
 
-entry['common'] = 'babel-polyfill';
+entry['common'] = path.resolve(__dirname, '../src/common/index.js');
+entry['babelPolyfill'] = 'babel-polyfill';
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
     plugins.push(new HtmlWebpackPlugin({
         template : `${mpadir}/${item}/index.html`,
         filename: `${item}/index.html`,
-        chunks: ['common',item],
+        chunks: ['babelPolyfill','common',item],
         inject: true
     }));
 });

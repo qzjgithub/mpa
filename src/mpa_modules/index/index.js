@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, hashHistory} from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import 'antd/dist/antd.css';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 import createHashHistory from 'history/createHashHistory';
@@ -12,8 +11,8 @@ import configureStore from '../../redux/store/configureStore';
 import App from './App';
 
 const state = window.__initialState__ || undefined;
-const store = configureStore(hashHistory, state);
-const history = createHashHistory();
+const store = configureStore(browserHistory, state);
+const history = createBrowserHistory();
 
 render(
     <Provider store={ store }>

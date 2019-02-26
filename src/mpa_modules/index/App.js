@@ -9,8 +9,9 @@ import './App.styl';
 
 import Header from '../../space_modules/header';
 
-import { testAction } from '../../redux/action/testAction';
 import Center from "../../comnponent/center";
+
+const TestAction = window['common'].action.test;
 
 class App extends Component{
     constructor(props, context) {
@@ -32,7 +33,7 @@ class App extends Component{
         /*setInterval(()=>{
             this.props.dispatch(testAction(this.state.data + 1));
         },1000);*/
-        this.context.store.dispatch(testAction(this.state.data + 1));
+        this.context.store.dispatch(TestAction.testAction(this.state.data + 1));
     }
 
     handleData(data) {

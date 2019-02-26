@@ -30,13 +30,14 @@ featureEntries && featureEntries.forEach((item) => {
 });
 plugins.push(new Copy(copys));
 
-entry['common'] = 'babel-polyfill';
+entry['common'] = path.resolve(__dirname, '../src/common/index.js');
+entry['babelPolyfill'] = 'babel-polyfill';
 entries.forEach((item) => {
     entry[item] = `${mpadir}/${item}/index.js`;
     plugins.push(new HtmlWebpackPlugin({
         template : `${mpadir}/${item}/index.html`,
         filename: `${item}/index.html`,
-        chunks: ['common',item],
+        chunks: ['babelPolyfill','common',item],
         inject: true
     }));
 });
@@ -114,11 +115,14 @@ module.exports = {
     devServer: {
         // contentBase: path.resolve(__dirname, '../dist'), //默认会以根文件夹提供本地服务器，这里指定文件夹
         historyApiFallback: {
-            index: '/index/index.html'
+            index: '/index/index.html',
+            rewrites:[
+                { from : /^\/.*/, to: '/index/index.html'}
+            ]
         }, //在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
         port: port, //如果省略，默认8080
         // index: 'index/index.html',
-        publicPath: "/",
+        // publicPath: "/",
         inline: true,
         hot: true,
         /*proxy: [{

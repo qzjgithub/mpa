@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, useRouterHistory, IndexRoute } from 'react-router';
-import 'antd/dist/antd.css';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 
