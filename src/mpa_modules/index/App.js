@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Websocket from 'react-websocket';
-import { DatePicker } from 'antd';
 import { Route, IndexRoute } from "react-router";
 import { Link } from "react-router-dom";
 import './App.styl';

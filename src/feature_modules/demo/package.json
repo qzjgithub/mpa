@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pro": "webpack --config webpack/webpack.config.js",
-    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js"
+    "pro": "webpack --config webpack/webpack.config.pro.js",
+    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js",
+    "dll": "webpack -p --progress --config .\\webpack\\webpack.dll.conf.js"
   },
   "author": "",
   "license": "ISC",

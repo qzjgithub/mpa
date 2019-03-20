@@ -1,16 +1,39 @@
 const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Copy = require('copy-webpack-plugin');
-
-const copys = [];
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const copys = [],plugins = [];
 copys.push({
     from : path.resolve(__dirname,'../src/i18n'),
     to: 'i18n'
 });
+const parentDllPath = path.resolve(__dirname,'../../../../dllchild');
+const parentDllEntries = fs.existsSync(parentDllPath) && fs.readdirSync(parentDllPath);
+parentDllEntries.forEach((item) => {
+    let jsonReg = /.*manifest\.json$/;
+    if(jsonReg.test(item)){
+        console.log(item);
+        plugins.push(new webpack.DllReferencePlugin({
+            manifest: require(`../../../../dllchild/${item}`)
+        }));
+    }
+});
+const dllchild = path.resolve(__dirname,'../../../../dllchild/');
+copys.push({
+    from: path.resolve(dllchild,'*.js'),
+    toType: 'template',
+    to: `./dll/[1]`,
+    test: /[\\/]dllchild[\\/](.*)$/,
+    force: true
+});
 module.exports = {
     mode: "production",
     entry: {
+        babel: 'babel-polyfill',
+        common: path.resolve(__dirname,'../../../common/index.js'),
         index : path.resolve(__dirname, '../src/index.js')
     },//指定入口文件，程序从这里开始编译,__dirname当前所在目录, ../表示上一级目录, ./同级目录
     output: {
@@ -70,19 +93,46 @@ module.exports = {
                         loader: require.resolve('file-loader'),
                         options: {
                             name: 'static/media/[name].[hash:8].[ext]',
-                            publicPatch: '/demo'
+                            publicPath: ''
                         },
                     },
                 ]
             },
         ]
     },
+    optimization: {
+        splitChunks: {
+            name: true,
+            cacheGroups: {
+                logicComponent: {
+                    test: /[\\/]node_modules[\\/](logic-component)/,
+                    name: 'logic',
+                    chunks: 'all'
+                }
+            }
+        },
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    warnings: false,
+                    parse: {},
+                    compress: {},
+                    mangle: true,
+                    output: null,
+                    toplevel: false,
+                    nameCache: null,
+                    ie8: false,
+                    keep_fnames: false,
+                }
+            })
+        ]
+    },
     plugins: [
+        ...plugins,
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname,'../src/index.html'),
-            filename: 'demo.html',
             inject: true
         }),
-        new Copy(copys),
+        new Copy(copys)
     ]
 }
