@@ -10,7 +10,7 @@ copys.push({
     from : path.resolve(__dirname,'../src/i18n'),
     to: 'i18n'
 });
-const parentDllPath = path.resolve(__dirname,'../../../../dllchild');
+/* const parentDllPath = path.resolve(__dirname,'../../../../dllchild');
 const parentDllEntries = fs.existsSync(parentDllPath) && fs.readdirSync(parentDllPath);
 parentDllEntries.forEach((item) => {
     let jsonReg = /.*manifest\.json$/;
@@ -20,15 +20,15 @@ parentDllEntries.forEach((item) => {
             manifest: require(`../../../../dllchild/${item}`)
         }));
     }
-});
-const dllchild = path.resolve(__dirname,'../../../../dllchild/');
+}); */
+/* const dllchild = path.resolve(__dirname,'../../../../dllchild/');
 copys.push({
     from: path.resolve(dllchild,'*.js'),
     toType: 'template',
     to: `./dll/[1]`,
     test: /[\\/]dllchild[\\/](.*)$/,
     force: true
-});
+}); */
 module.exports = {
     mode: "production",
     entry: {
@@ -105,8 +105,8 @@ module.exports = {
             name: true,
             cacheGroups: {
                 logicComponent: {
-                    test: /[\\/]node_modules[\\/](logic-component)/,
-                    name: 'logic',
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
                     chunks: 'all'
                 }
             }

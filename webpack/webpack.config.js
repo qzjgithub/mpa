@@ -22,7 +22,7 @@ entries.forEach((item) => {
     plugins.push(new HtmlWebpackPlugin({
         template : `${sub}/index.html`,
         filename: `${item}/index.html`,
-        chunks: ['babel','common','logic',item],
+        chunks: ['vendor','babel','common',item],
         inject: true
     }));
     copys.push({
@@ -32,7 +32,7 @@ entries.forEach((item) => {
     });
 });
 
-const dllPath = path.resolve(__dirname,'../dll');
+/* const dllPath = path.resolve(__dirname,'../dll');
 const dllEntries = fs.existsSync(dllPath) && fs.readdirSync(dllPath);
 dllEntries.forEach((item) => {
     let jsonReg = /.*manifest\.json$/;
@@ -41,7 +41,7 @@ dllEntries.forEach((item) => {
             manifest: require(`../dll/${item}`)
         }));
     }
-});
+}); */
 
 featureEntries && featureEntries.forEach((item) => {
     let i18n = `${featuredir}/${item}/src/i18n`;
@@ -55,13 +55,13 @@ featureEntries && featureEntries.forEach((item) => {
     }
     entry[`${item}`] = `${featuredir}/${item}/src/index.js`;
 });
-copys.push({
+/* copys.push({
     from: path.resolve(__dirname,'../dll/*.js'),
     to: ''
-});
+}); */
 
 plugins.push(new Copy(copys));
-const vendorReg = /[\\/]node_modules[\\/](logic-component)[\\/]/;
+// const vendorReg = /[\\/]node_modules[\\/](logic-component)[\\/]/;
 let config = {
     mode: "production",
     entry: entry,
@@ -148,8 +148,8 @@ let config = {
             name: true,
             cacheGroups: {
                 logicComponent: {
-                    test: vendorReg,
-                    name: 'logic',
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
                     chunks: 'all'
                 }
             }

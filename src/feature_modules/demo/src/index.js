@@ -18,9 +18,11 @@ const history = createBrowserHistory();
 let reducers = { ...demoReducer, routing: routerReducer}
 
 let getFixDom = (param) => {
+    console.log(param);
+    let pp = (param.pathname==='/'||!param.pathname)?'':param.pathname;
     return <Router history={ history }>
         <section>
-            <Route path={`${param.pathname==='/'?'':param.pathname}/`} component={ App }/>
+            <Route path={`${pp}/`} component={ App }/>
         </section>
     </Router>
 }
@@ -38,4 +40,4 @@ enter((param, rd) => {
         dom,
         document.getElementById(param.id || 'app')
     );
-},{ store ,reducers}, false);
+},{ store ,reducers}, true);
