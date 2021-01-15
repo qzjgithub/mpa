@@ -30,12 +30,4 @@ postcss-flexbugs-fixes没安装，安装一下
 
 6.feature_modules里面的项目，除了webpack需要用到全局的以外，其他的都可以用mpa\node_modules下的
 所以要npm install webpack -g
-<<<<<<< HEAD
-
-7.要支持更多语法，如async/await等，需按如下操作
-1.npm install babel-polyfill@latest --dev-save
-
-2.将webpack.config.js中的entry，加入common:babel-polyfill，在html的配置中加上common
-=======
 还有npm install webpack-dev-server -g
->>>>>>> 9fd3a3a7bfc63c53547f487b67a529f907101a24
